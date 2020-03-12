@@ -1,5 +1,8 @@
 package com.psych.game.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,21 +18,25 @@ public class Round extends Auditable {
     @ManyToOne
     @Getter
     @Setter
+    @JsonBackReference
     private Game game;
 
     @ManyToOne
     @Getter
     @Setter
+    @JsonIdentityReference
     private Question question;
 
     @Getter
     @Setter
     @ManyToMany(cascade = CascadeType.ALL)
-    private Map<Player, PlayerAnswer> playerAnswers = new HashMap<>();
+    @JsonManagedReference
+    private Map<Player, PlayerAnswer> submittedAnswers = new HashMap<>();
 
     @Getter
     @Setter
     @ManyToMany(cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Map<Player, PlayerAnswer> selectedAnswers = new HashMap<>();
 
     @Getter
@@ -40,6 +47,7 @@ public class Round extends Auditable {
     @Getter
     @Setter
     @ManyToOne()
+    @JsonIdentityReference
     private EllenAnswer ellenAnswer;
 
 }
